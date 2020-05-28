@@ -1,0 +1,16 @@
+name: test
+
+on:
+  push:
+    branch: 'master'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish helm chart
+        uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          charts_dir: testdata
