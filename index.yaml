@@ -3,12 +3,12 @@ entries:
   test:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-05-28T07:04:05.535696642Z"
+    created: "2020-05-28T07:09:09.63831432Z"
     description: A Helm chart for Kubernetes
-    digest: f6f37ba9f681b36932e05a0d6fbcf2ac4cc67b77ee08dfae0de09136f4342d50
+    digest: e72311a2013ec51443e18730f183e3fe6bac1ce64b11f14d0500d1ca1d2e49fa
     name: test
     type: application
     urls:
     - https://stefanprodan.github.io/helm-gh-pages/test-0.1.0.tgz
     version: 0.1.0
-generated: "2020-05-28T07:04:05.534471342Z"
+generated: "2020-05-28T07:09:09.63752592Z"
