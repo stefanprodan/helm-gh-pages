@@ -67,7 +67,7 @@ lint() {
 }
 
 package() {
-  helm package ${REPO_ROOT}/${CHARTS_DIR}/* --destination ${CHARTS_TMP_DIR}
+  helm package -u ${REPO_ROOT}/${CHARTS_DIR}/* --destination ${CHARTS_TMP_DIR}
 }
 
 upload() {
