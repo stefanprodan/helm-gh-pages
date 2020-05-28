@@ -1,4 +1,4 @@
-name: 'helm-gh-pages'
+name: 'Helm Publisher'
 description: 'A GitHub Action for publishing Helm charts with Github Pages'
 author: 'Stefan Prodan'
 branding:
@@ -12,13 +12,13 @@ inputs:
     description: "The charts directory, defaults to `charts`"
     required: false
   charts_url:
-    description: "The GitHub Pages URL, defaults to `https://<USER>.github.io/<REPOSITORY>`"
+    description: "The GitHub Pages URL, defaults to `https://<OWNER>.github.io/<REPOSITORY>`"
     required: false
   owner:
-    description: "The GitHub user or org that owns this repository, defaults to GITHUB_REPOSITORY"
+    description: "The GitHub user or org that owns this repository, defaults to `GITHUB_REPOSITORY`"
     required: false
   repository:
-    description: "The GitHub repository name, defaults to GITHUB_REPOSITORY"
+    description: "The GitHub repository name, defaults to `GITHUB_REPOSITORY`"
     required: false
   branch:
     description: "The branch to publish charts, defaults to `gh-pages`"
