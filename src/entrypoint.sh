@@ -81,7 +81,7 @@ upload() {
   git remote set-url origin ${REPO_URL}
   git checkout gh-pages
 
-  charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xarg)
+  charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
   mv -f ${CHARTS_TMP_DIR}/*.tgz .
   helm repo index . --url ${CHARTS_URL}
