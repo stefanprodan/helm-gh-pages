@@ -1,2 +1,2 @@
 # helm-gh-pages
-A GitHub Action for publish Helm charts to Github Pages
+A GitHub Action for publishing Helm charts to Github Pages
