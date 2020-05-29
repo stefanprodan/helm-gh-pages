@@ -1,4 +1,4 @@
-# helm-gh-pages
+# Helm Publisher
 
 A GitHub Action for publishing Helm charts with Github Pages.
 
@@ -40,7 +40,7 @@ Package and push charts in `./chart` dir to `gh-pages` branch in a different rep
 name: release-chart
 on:
   push:
-    tags: 'chart.*'
+    tags: 'chart-*'
 
 jobs:
   release-chart:
@@ -50,7 +50,7 @@ jobs:
       - name: Publish Helm chart
         uses: stefanprodan/helm-gh-pages@master
         with:
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
           charts_dir: chart
           charts_url: https://charts.fluxcd.io
           owner: fluxcd
