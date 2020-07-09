@@ -92,7 +92,7 @@ upload() {
 
   git add .
   git commit -m "Publish $charts"
-  git push origin gh-pages
+  git push origin ${BRANCH}
 
   popd >& /dev/null
   rm -rf $tmpDir
