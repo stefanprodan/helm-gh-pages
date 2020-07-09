@@ -10,8 +10,8 @@ OWNER=$4
 REPOSITORY=$5
 BRANCH=$6
 HELM_VERSION=$7
-
-CHARTS_TMP_DIR=$8
+CHARTS_DIR_DESTINATION=$8
+CHARTS_TMP_DIR=$(mktemp -d)
 REPO_ROOT=$(git rev-parse --show-toplevel)
 REPO_URL=""
 
@@ -43,8 +43,8 @@ main() {
   if [[ -z "$REPO_URL" ]]; then
       REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
   fi
-  if [[ -z "$CHARTS_DIR" ]]; then
-      CHARTS_TMP_DIR="hosting"
+  if [[ -z "$CHARTS_DIR_DESTINATION" ]]; then
+      CHARTS_DIR_DESTINATION="hosting"
   fi
   download
   lint
@@ -84,9 +84,11 @@ upload() {
   git checkout gh-pages
 
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
+  
 
-  mv -f ${CHARTS_TMP_DIR}/*.tgz .
-  helm repo index . --url ${CHARTS_URL}
+  mv -f ${CHARTS_TMP_DIR}/*.tgz ./${CHARTS_DIR_DESTINATION}
+  cd ${CHARTS_DIR_DESTINATION}
+  helm repo index . --url ${CHARTS_URL}  --merge index.yaml
 
   git add .
   git commit -m "Publish $charts"
