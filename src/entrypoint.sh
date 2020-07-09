@@ -88,7 +88,7 @@ upload() {
 
   mv -f ${CHARTS_TMP_DIR}/*.tgz ./${CHARTS_DIR_DESTINATION}
   cd ${CHARTS_DIR_DESTINATION}
-  helm repo index . --url ${CHARTS_URL}  --merge index.yaml
+  helm repo index .  --merge index.yaml
 
   git add .
   git commit -m "Publish $charts"
