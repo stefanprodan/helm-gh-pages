@@ -26,6 +26,9 @@ inputs:
   helm_version:
     description: "The Helm CLI version"
     required: false
+  charts_dir_destination:
+    description: "The Helm destination"
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -37,3 +40,4 @@ runs:
     - ${{ inputs.repository }}
     - ${{ inputs.branch }}
     - ${{ inputs.helm_version }}
+    - ${{ inputs.chart_dir_destination }}

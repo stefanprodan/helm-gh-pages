@@ -11,7 +11,7 @@ REPOSITORY=$5
 BRANCH=$6
 HELM_VERSION=$7
 
-CHARTS_TMP_DIR=$(mktemp -d)
+CHARTS_TMP_DIR=$8
 REPO_ROOT=$(git rev-parse --show-toplevel)
 REPO_URL=""
 
@@ -43,7 +43,9 @@ main() {
   if [[ -z "$REPO_URL" ]]; then
       REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
   fi
-
+  if [[ -z "$CHARTS_DIR" ]]; then
+      CHARTS_TMP_DIR="hosting"
+  fi
   download
   lint
   package
