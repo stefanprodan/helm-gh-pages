@@ -63,11 +63,11 @@ download() {
 }
 
 lint() {
-  helm lint ${REPO_ROOT}/${CHARTS_DIR}/*
+  helm lint ${REPO_ROOT}/${CHARTS_DIR}/*/
 }
 
 package() {
-  helm package -u ${REPO_ROOT}/${CHARTS_DIR}/* --destination ${CHARTS_TMP_DIR}
+  helm package -u ${REPO_ROOT}/${CHARTS_DIR}/*/ --destination ${CHARTS_TMP_DIR}
 }
 
 upload() {
