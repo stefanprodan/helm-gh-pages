@@ -26,7 +26,7 @@ inputs:
   helm_version:
     description: "The Helm CLI version"
     required: false
-  chart_dir_destination:
+  charts_dir_destination:
     description: "The Helm destination"
     required: false
 runs:
@@ -40,4 +40,4 @@ runs:
     - ${{ inputs.repository }}
     - ${{ inputs.branch }}
     - ${{ inputs.helm_version }}
-    - ${{ inputs.chart_dir_destination }}
+    - ${{ inputs.charts_dir_destination }}
