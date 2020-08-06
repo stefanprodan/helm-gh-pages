@@ -11,6 +11,7 @@ REPOSITORY=$5
 BRANCH=$6
 HELM_VERSION=$7
 
+CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
 REPO_ROOT=$(git rev-parse --show-toplevel)
 REPO_URL=""
@@ -44,10 +45,23 @@ main() {
       REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
   fi
 
+  locate
   download
+  dependencies
   lint
   package
   upload
+}
+
+locate() {
+  for dir in $(find "${CHARTS_DIR}" -type d -mindepth 1 -maxdepth 1); do
+    if [[ -f "${dir}/Chart.yaml" ]]; then
+      CHARTS+=("${dir}")
+      echo "Found chart directory ${dir}"
+    else
+      echo "Ignoring non-chart directory ${dir}"
+    fi
+  done
 }
 
 download() {
@@ -62,12 +76,18 @@ download() {
   rm -rf $tmpDir
 }
 
+dependencies() {
+  for chart in ${CHARTS[@]}; do
+    helm dependency update "${chart}"
+  done
+}
+
 lint() {
-  helm lint ${REPO_ROOT}/${CHARTS_DIR}/*/
+  helm lint ${CHARTS[*]}
 }
 
 package() {
-  helm package -u ${REPO_ROOT}/${CHARTS_DIR}/*/ --destination ${CHARTS_TMP_DIR}
+  helm package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR}
 }
 
 upload() {
