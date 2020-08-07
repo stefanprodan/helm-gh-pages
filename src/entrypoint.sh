@@ -46,6 +46,10 @@ main() {
       CHARTS_URL="https://${OWNER}.github.io/${REPOSITORY}"
   fi
 
+  if [[ "$TARGET_DIR" != "." ]]; then
+    CHARTS_URL="${CHARTS_URL}/${TARGET_DIR}"
+  fi
+
   if [[ -z "$REPO_URL" ]]; then
       REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
   fi
