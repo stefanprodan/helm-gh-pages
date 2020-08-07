@@ -10,6 +10,7 @@ OWNER=$4
 REPOSITORY=$5
 BRANCH=$6
 HELM_VERSION=$7
+TARGET_DIR=$8
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -35,6 +36,10 @@ main() {
 
   if [[ -z "$BRANCH" ]]; then
       BRANCH="gh-pages"
+  fi
+
+  if [[ -z "$TARGET_DIR" ]]; then
+    TARGET_DIR="."
   fi
 
   if [[ -z "$CHARTS_URL" ]]; then
@@ -103,10 +108,11 @@ upload() {
 
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
-  mv -f ${CHARTS_TMP_DIR}/*.tgz .
-  helm repo index . --url ${CHARTS_URL}
+  mkdir -p ${TARGET_DIR}
+  mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
+  helm repo index ${TARGET_DIR} --url ${CHARTS_URL}
 
-  git add .
+  git add ${TARGET_DIR}
   git commit -m "Publish $charts"
   git push origin gh-pages
 

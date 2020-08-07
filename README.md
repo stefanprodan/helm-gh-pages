@@ -12,6 +12,7 @@ Inputs:
 * `repository` The GitHub repository, defaults to the `GITHUB_REPOSITORY` env var
 * `branch` The branch to publish charts, defaults to `gh-pages`
 * `helm_version` The Helm CLI version, defaults to the latest release
+* `target_dir` The target directory to store the charts, defaults to `.`
 
 ## Examples
 
@@ -56,4 +57,5 @@ jobs:
           owner: fluxcd
           repository: charts
           branch: gh-pages
+          target_dir: charts
 ```

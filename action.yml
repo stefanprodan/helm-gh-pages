@@ -26,6 +26,9 @@ inputs:
   helm_version:
     description: "The Helm CLI version"
     required: false
+  target_dir:
+    description: "The target directory to store the charts, defaults to `.`"
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -37,3 +40,4 @@ runs:
     - ${{ inputs.repository }}
     - ${{ inputs.branch }}
     - ${{ inputs.helm_version }}
+    - ${{ inputs.target_dir }}
