@@ -23,11 +23,11 @@ inputs:
   branch:
     description: "The branch to publish charts, defaults to `gh-pages`"
     required: false
-  helm_version:
-    description: "The Helm CLI version"
-    required: false
   target_dir:
     description: "The target directory to store the charts, defaults to `.`"
+    required: false
+  helm_version:
+    description: "The Helm CLI version"
     required: false
 runs:
   using: 'docker'
@@ -39,5 +39,5 @@ runs:
     - ${{ inputs.user }}
     - ${{ inputs.repository }}
     - ${{ inputs.branch }}
-    - ${{ inputs.helm_version }}
     - ${{ inputs.target_dir }}
+    - ${{ inputs.helm_version }}
