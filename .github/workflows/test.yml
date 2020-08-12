@@ -2,7 +2,9 @@ name: test
 
 on:
   push:
-    branch: 'master'
+    branch:
+    - 'master'
+    - 'helm-*'
 
 jobs:
   release:
