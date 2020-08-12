@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# Copyright 2020 Stefan Prodan. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 set -o errexit
 set -o pipefail
 
@@ -19,7 +33,7 @@ REPO_URL=""
 
 main() {
   if [[ -z "$HELM_VERSION" ]]; then
-      HELM_VERSION="3.2.1"
+      HELM_VERSION="3.3.0"
   fi
 
   if [[ -z "$CHARTS_DIR" ]]; then
@@ -114,7 +128,14 @@ upload() {
 
   mkdir -p ${TARGET_DIR}
   mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
-  helm repo index ${TARGET_DIR} --url ${CHARTS_URL}
+
+  if [[ -f "${TARGET_DIR}/index.yaml" ]]; then
+    echo "Found index, merging changes"
+    helm repo index ${TARGET_DIR} --url ${CHARTS_URL} --merge "${TARGET_DIR}/index.yaml"
+  else
+    echo "No index found, generating a new one"
+    helm repo index ${TARGET_DIR} --url ${CHARTS_URL}
+  fi
 
   git add ${TARGET_DIR}
   git commit -m "Publish $charts"
