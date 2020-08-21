@@ -29,6 +29,9 @@ inputs:
   helm_version:
     description: "The Helm CLI version"
     required: false
+  linting:
+    description: "Toggle Helm linting, can be disabled by setting it to 'off'"
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -41,3 +44,4 @@ runs:
     - ${{ inputs.branch }}
     - ${{ inputs.target_dir }}
     - ${{ inputs.helm_version }}
+    - ${{ inputs.linting }}

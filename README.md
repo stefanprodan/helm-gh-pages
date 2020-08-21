@@ -13,6 +13,8 @@ Inputs:
 * `branch` The branch to publish charts, defaults to `gh-pages`
 * `target_dir` The target directory to store the charts, defaults to `.`
 * `helm_version` The Helm CLI version, defaults to the latest release
+* `helm_version` The Helm CLI version, defaults to the latest release
+* `linting` Toggle Helm linting, can be disabled by setting it to `off`
 
 ## Examples
 
