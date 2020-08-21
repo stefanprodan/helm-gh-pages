@@ -25,6 +25,7 @@ REPOSITORY=$5
 BRANCH=$6
 TARGET_DIR=$7
 HELM_VERSION=$8
+LINTING=$9
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -71,7 +72,9 @@ main() {
   locate
   download
   dependencies
-  lint
+  if [[ "$LINTING" != "off" ]]; then
+    lint
+  fi
   package
   upload
 }
