@@ -125,7 +125,7 @@ upload() {
   git config user.name "${GITHUB_ACTOR}"
   git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
   git remote set-url origin ${REPO_URL}
-  git checkout gh-pages
+  git checkout ${BRANCH}
 
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
@@ -142,7 +142,7 @@ upload() {
 
   git add ${TARGET_DIR}
   git commit -m "Publish $charts"
-  git push origin gh-pages
+  git push origin ${BRANCH}
 
   popd >& /dev/null
   rm -rf $tmpDir
