@@ -27,6 +27,7 @@ TARGET_DIR=$7
 HELM_VERSION=$8
 LINTING=$9
 
+HELM="/app/helm"
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
 REPO_ROOT=$(git rev-parse --show-toplevel)
@@ -34,23 +35,23 @@ REPO_URL=""
 
 main() {
   if [[ -z "$HELM_VERSION" ]]; then
-      HELM_VERSION="3.3.0"
+    HELM_VERSION="3.3.0"
   fi
 
   if [[ -z "$CHARTS_DIR" ]]; then
-      CHARTS_DIR="charts"
+    CHARTS_DIR="charts"
   fi
 
   if [[ -z "$OWNER" ]]; then
-      OWNER=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+    OWNER=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
   fi
 
   if [[ -z "$REPOSITORY" ]]; then
-      REPOSITORY=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+    REPOSITORY=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
   fi
 
   if [[ -z "$BRANCH" ]]; then
-      BRANCH="gh-pages"
+    BRANCH="gh-pages"
   fi
 
   if [[ -z "$TARGET_DIR" ]]; then
@@ -58,7 +59,7 @@ main() {
   fi
 
   if [[ -z "$CHARTS_URL" ]]; then
-      CHARTS_URL="https://${OWNER}.github.io/${REPOSITORY}"
+    CHARTS_URL="https://${OWNER}.github.io/${REPOSITORY}"
   fi
 
   if [[ "$TARGET_DIR" != "." ]]; then
@@ -66,7 +67,7 @@ main() {
   fi
 
   if [[ -z "$REPO_URL" ]]; then
-      REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
+    REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
   fi
 
   locate
@@ -96,7 +97,7 @@ download() {
   pushd $tmpDir >& /dev/null
 
   curl -sSL https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar xz
-  cp linux-amd64/helm /usr/local/bin/helm
+  cp linux-amd64/helm $HELM
 
   popd >& /dev/null
   rm -rf $tmpDir
@@ -104,16 +105,16 @@ download() {
 
 dependencies() {
   for chart in ${CHARTS[@]}; do
-    helm dependency update "${chart}"
+    $HELM dependency update "${chart}"
   done
 }
 
 lint() {
-  helm lint ${CHARTS[*]}
+  $HELM lint ${CHARTS[*]}
 }
 
 package() {
-  helm package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR}
+  $HELM package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR}
 }
 
 upload() {
@@ -134,10 +135,10 @@ upload() {
 
   if [[ -f "${TARGET_DIR}/index.yaml" ]]; then
     echo "Found index, merging changes"
-    helm repo index ${TARGET_DIR} --url ${CHARTS_URL} --merge "${TARGET_DIR}/index.yaml"
+    $HELM repo index ${TARGET_DIR} --url ${CHARTS_URL} --merge "${TARGET_DIR}/index.yaml"
   else
     echo "No index found, generating a new one"
-    helm repo index ${TARGET_DIR} --url ${CHARTS_URL}
+    $HELM repo index ${TARGET_DIR} --url ${CHARTS_URL}
   fi
 
   git add ${TARGET_DIR}
