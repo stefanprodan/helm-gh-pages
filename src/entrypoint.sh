@@ -61,7 +61,7 @@ main() {
       CHARTS_URL="https://${OWNER}.github.io/${REPOSITORY}"
   fi
 
-  if [[ "$TARGET_DIR" != "." ]]; then
+  if [[ "$TARGET_DIR" != "." && "$TARGET_DIR" != "docs" ]]; then
     CHARTS_URL="${CHARTS_URL}/${TARGET_DIR}"
   fi
 
