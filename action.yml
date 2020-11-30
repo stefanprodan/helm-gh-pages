@@ -32,6 +32,14 @@ inputs:
   linting:
     description: "Toggle Helm linting, can be disabled by setting it to 'off'"
     required: false
+  commit_username:
+    description: "The user name used for the commit user"
+    required: false
+    default: ${{ github.actor }} 
+  commit_email:
+    description: "The email used for the commit user"
+    required: false
+    default: ${{ github.actor }}@users.noreply.github.com
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -45,3 +53,5 @@ runs:
     - ${{ inputs.target_dir }}
     - ${{ inputs.helm_version }}
     - ${{ inputs.linting }}
+    - ${{ inputs.commit_username }}
+    - ${{ inputs.commit_email }}
