@@ -26,6 +26,8 @@ BRANCH=$6
 TARGET_DIR=$7
 HELM_VERSION=$8
 LINTING=$9
+COMMIT_USERNAME=$10
+COMMIT_EMAIL=$11
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -67,6 +69,14 @@ main() {
 
   if [[ -z "$REPO_URL" ]]; then
       REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
+  fi
+
+  if [[ -z "$COMMIT_USERNAME" ]]; then
+      COMMIT_USERNAME="${GITHUB_ACTOR}"
+  fi
+
+  if [[ -z "$COMMIT_EMAIL" ]]; then
+      COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
   fi
 
   locate
@@ -122,8 +132,8 @@ upload() {
 
   git clone ${REPO_URL}
   cd ${REPOSITORY}
-  git config user.name "${GITHUB_ACTOR}"
-  git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+  git config user.name "${COMMIT_USERNAME}"
+  git config user.email "${COMMIT_EMAIL}"
   git remote set-url origin ${REPO_URL}
   git checkout ${BRANCH}
 

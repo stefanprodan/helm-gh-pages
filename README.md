@@ -14,6 +14,8 @@ Inputs:
 * `target_dir` The target directory to store the charts, defaults to `.`
 * `helm_version` The Helm CLI version, defaults to the latest release
 * `linting` Toggle Helm linting, can be disabled by setting it to `off`
+* `commit_username` Explicitly specify username for commit back, default to `GITHUB_ACTOR`
+* `commit_email` Explicitly specify email for commit back, default to `GITHUB_ACTOR@users.noreply.github.com`
 
 ## Examples
 
@@ -59,4 +61,6 @@ jobs:
           repository: charts
           branch: gh-pages
           target_dir: charts
+          commit_username: johndoe
+          commit_email: johndoe@example.com
 ```
