@@ -35,11 +35,11 @@ inputs:
   commit_username:
     description: "The user name used for the commit user"
     required: false
-    default: "$GITHUB_ACTOR"
+    default: ${{ github.actor }} 
   commit_email:
     description: "The email used for the commit user"
     required: false
-    default: "$GITHUB_ACTOR@users.noreply.github.com"
+    default: ${{ github.actor }}@users.noreply.github.com
 runs:
   using: 'docker'
   image: 'Dockerfile'
