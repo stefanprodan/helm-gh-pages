@@ -53,3 +53,5 @@ runs:
     - ${{ inputs.target_dir }}
     - ${{ inputs.helm_version }}
     - ${{ inputs.linting }}
+    - ${{ inputs.commit_username }}
+    - ${{ inputs.commit_email }}
