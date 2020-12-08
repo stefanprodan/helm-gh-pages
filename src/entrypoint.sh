@@ -26,8 +26,8 @@ BRANCH=$6
 TARGET_DIR=$7
 HELM_VERSION=$8
 LINTING=$9
-COMMIT_USERNAME=$10
-COMMIT_EMAIL=$11
+COMMIT_USERNAME=${10}
+COMMIT_EMAIL=${11}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -36,7 +36,7 @@ REPO_URL=""
 
 main() {
   if [[ -z "$HELM_VERSION" ]]; then
-      HELM_VERSION="3.3.0"
+      HELM_VERSION="3.4.1"
   fi
 
   if [[ -z "$CHARTS_DIR" ]]; then
