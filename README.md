@@ -16,6 +16,8 @@ Inputs:
 * `linting` Toggle Helm linting, can be disabled by setting it to `off`
 * `commit_username` Explicitly specify username for commit back, default to `GITHUB_ACTOR`
 * `commit_email` Explicitly specify email for commit back, default to `GITHUB_ACTOR@users.noreply.github.com`
+* `app_version` Explicitly specify app version in package. If not defined then used chart values.
+* `chart_version` Explicitly specify chart version in package. If not defined then used chart values.
 
 ## Examples
 
@@ -63,4 +65,23 @@ jobs:
           target_dir: charts
           commit_username: johndoe
           commit_email: johndoe@example.com
+```
+Package chart with specified chart & app versions and push all charts in `./charts` dir to `gh-pages` branch:
+```yaml
+name: release
+on:
+  push:
+    tags: '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish Helm charts
+        uses: stefanprodan/helm-gh-pages@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          app_version: 1.16.0
+          chart_version: 0.1.0
 ```

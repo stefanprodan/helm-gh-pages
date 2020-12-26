@@ -28,6 +28,8 @@ HELM_VERSION=$8
 LINTING=$9
 COMMIT_USERNAME=${10}
 COMMIT_EMAIL=${11}
+APP_VERSION=${12}
+CHART_VERSION=${13}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -123,7 +125,10 @@ lint() {
 }
 
 package() {
-  helm package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR}
+  [[ -z $APP_VERSION ]] || APP_VERSION_CMD=" --app-version $APP_VERSION";
+  [[ -z $CHART_VERSION ]] || CHART_VERSION_CMD=" --version $CHART_VERSION"
+
+  helm package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR} "$APP_VERSION_CMD" "$CHART_VERSION_CMD"
 }
 
 upload() {
