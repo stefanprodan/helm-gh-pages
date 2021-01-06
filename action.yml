@@ -47,7 +47,7 @@ runs:
     - ${{ inputs.token }}
     - ${{ inputs.charts_dir }}
     - ${{ inputs.charts_url }}
-    - ${{ inputs.user }}
+    - ${{ inputs.owner }}
     - ${{ inputs.repository }}
     - ${{ inputs.branch }}
     - ${{ inputs.target_dir }}
