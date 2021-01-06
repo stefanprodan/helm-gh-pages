@@ -38,7 +38,7 @@ REPO_URL=""
 
 main() {
   if [[ -z "$HELM_VERSION" ]]; then
-      HELM_VERSION="3.4.1"
+      HELM_VERSION="3.4.2"
   fi
 
   if [[ -z "$CHARTS_DIR" ]]; then
@@ -125,10 +125,15 @@ lint() {
 }
 
 package() {
-  [[ -z $APP_VERSION ]] || APP_VERSION_CMD=" --app-version $APP_VERSION";
-  [[ -z $CHART_VERSION ]] || CHART_VERSION_CMD=" --version $CHART_VERSION"
+  if [[ ! -z "$APP_VERSION" ]]; then
+      APP_VERSION_CMD=" --app-version $APP_VERSION"
+  fi
 
-  helm package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR} "$APP_VERSION_CMD" "$CHART_VERSION_CMD"
+  if [[ ! -z "$CHART_VERSION" ]]; then
+      CHART_VERSION_CMD=" --version $CHART_VERSION"
+  fi
+
+  helm package ${CHARTS[*]} --destination ${CHARTS_TMP_DIR} $APP_VERSION_CMD$CHART_VERSION_CMD
 }
 
 upload() {
