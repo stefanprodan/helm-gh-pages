@@ -30,6 +30,7 @@ COMMIT_USERNAME=${10}
 COMMIT_EMAIL=${11}
 APP_VERSION=${12}
 CHART_VERSION=${13}
+OVERRIDE_RELEASES=${14}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -79,6 +80,10 @@ main() {
 
   if [[ -z "$COMMIT_EMAIL" ]]; then
       COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
+  fi
+
+  if [[ -z "$OVERRIDE_RELEASES" ]]; then
+      OVERRIDE_RELEASES="off"
   fi
 
   locate
@@ -150,7 +155,21 @@ upload() {
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
   mkdir -p ${TARGET_DIR}
-  mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
+
+  published=()
+  if [[ "$OVERRIDE_RELEASES" == "off" ]]; then
+    for chart in $charts; do
+      if ls "${TARGET_DIR}/${chart}" >& /dev/null; then
+        echo "Skipping already released chart ${chart}"
+      else
+        mv -v "${CHARTS_TMP_DIR}/${chart}" ${TARGET_DIR}
+        published+=(${chart})
+      fi
+    done
+  else
+    mv -vf ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
+    published=$charts
+  fi
 
   if [[ -f "${TARGET_DIR}/index.yaml" ]]; then
     echo "Found index, merging changes"
@@ -161,7 +180,7 @@ upload() {
   fi
 
   git add ${TARGET_DIR}
-  git commit -m "Publish $charts"
+  git commit -m "Publish $published"
   git push origin ${BRANCH}
 
   popd >& /dev/null

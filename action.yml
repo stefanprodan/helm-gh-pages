@@ -46,6 +46,9 @@ inputs:
   chart_version:
     description: "Set the version on the chart to this version"
     required: false
+  override_releases:
+    description: "If set to true will override already released chart versions"
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -63,3 +66,4 @@ runs:
     - ${{ inputs.commit_email }}
     - ${{ inputs.app_version }}
     - ${{ inputs.chart_version }}
+    - ${{ inputs.override_releases }}
