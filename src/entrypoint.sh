@@ -150,13 +150,15 @@ upload() {
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
   mkdir -p ${TARGET_DIR}
-  mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
 
   if [[ -f "${TARGET_DIR}/index.yaml" ]]; then
     echo "Found index, merging changes"
-    helm repo index ${TARGET_DIR} --url ${CHARTS_URL} --merge "${TARGET_DIR}/index.yaml"
+    helm repo index ${CHARTS_TMP_DIR} --url ${CHARTS_URL} --merge "${TARGET_DIR}/index.yaml"
+    mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
+    mv -f ${CHARTS_TMP_DIR}/index.yaml ${TARGET_DIR}/index.yaml
   else
     echo "No index found, generating a new one"
+    mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
     helm repo index ${TARGET_DIR} --url ${CHARTS_URL}
   fi
 
