@@ -30,6 +30,7 @@ COMMIT_USERNAME=${10}
 COMMIT_EMAIL=${11}
 APP_VERSION=${12}
 CHART_VERSION=${13}
+INDEX_DIR=${14}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -79,6 +80,10 @@ main() {
 
   if [[ -z "$COMMIT_EMAIL" ]]; then
       COMMIT_EMAIL="${GITHUB_ACTOR}@users.noreply.github.com"
+  fi
+
+  if [[ -z "$INDEX_DIR" ]]; then
+      INDEX_DIR=${TARGET_DIR}
   fi
 
   locate
@@ -151,18 +156,20 @@ upload() {
 
   mkdir -p ${TARGET_DIR}
 
-  if [[ -f "${TARGET_DIR}/index.yaml" ]]; then
+  if [[ -f "${INDEX_DIR}/index.yaml" ]]; then
     echo "Found index, merging changes"
-    helm repo index ${CHARTS_TMP_DIR} --url ${CHARTS_URL} --merge "${TARGET_DIR}/index.yaml"
+    helm repo index ${CHARTS_TMP_DIR} --url ${CHARTS_URL} --merge "${INDEX_DIR}/index.yaml"
     mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
-    mv -f ${CHARTS_TMP_DIR}/index.yaml ${TARGET_DIR}/index.yaml
+    mv -f ${CHARTS_TMP_DIR}/index.yaml ${INDEX_DIR}/index.yaml
   else
     echo "No index found, generating a new one"
     mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
-    helm repo index ${TARGET_DIR} --url ${CHARTS_URL}
+    helm repo index ${INDEX_DIR} --url ${CHARTS_URL}
   fi
 
   git add ${TARGET_DIR}
+  git add ${INDEX_DIR}/index.yaml
+
   git commit -m "Publish $charts"
   git push origin ${BRANCH}
 

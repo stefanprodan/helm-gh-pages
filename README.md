@@ -18,6 +18,7 @@ Inputs:
 * `commit_email` Explicitly specify email for commit back, default to `GITHUB_ACTOR@users.noreply.github.com`
 * `app_version` Explicitly specify app version in package. If not defined then used chart values.
 * `chart_version` Explicitly specify chart version in package. If not defined then used chart values.
+* `index_dir` The location of `index.yaml` file in the repo, defaults to the same value as `target_dir`
 
 ## Examples
 
