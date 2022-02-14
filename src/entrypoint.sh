@@ -40,7 +40,7 @@ REPO_URL=""
 
 main() {
   if [[ -z "$HELM_VERSION" ]]; then
-      HELM_VERSION="3.4.2"
+      HELM_VERSION="3.8.0"
   fi
 
   if [[ -z "$CHARTS_DIR" ]]; then
