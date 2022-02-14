@@ -3,9 +3,9 @@ entries:
   test:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-14T09:58:21.570584716Z"
+    created: "2022-02-14T10:02:01.280050985Z"
     description: A Helm chart for Kubernetes
-    digest: 18407a766f88cef1ab402ec7f2f0dafe177bca53af428de5ab61a40154840ef2
+    digest: 3fbdf747a8d4366745167e666622a7ee9aa19ac493608d523d410b8ba3bcf463
     name: test
     type: application
     urls:
@@ -14,9 +14,9 @@ entries:
   test1:
   - apiVersion: v2
     appVersion: 1.17.0
-    created: "2022-02-14T09:58:21.571250363Z"
+    created: "2022-02-14T10:02:01.280715198Z"
     description: A Helm chart for Kubernetes
-    digest: 09166cc6028090932811bfadd9c683438c6b1dbfccf6797be0868c0f38b837fc
+    digest: 06084f66df0ca3b1d320d414fe742ed8b2cf5ed16d9a7a20700656652f461ecd
     name: test1
     type: application
     urls:
@@ -32,4 +32,4 @@ entries:
     urls:
     - https://stefanprodan.github.io/helm-gh-pages/test1-0.1.0.tgz
     version: 0.1.0
-generated: "2022-02-14T09:58:21.569271925Z"
+generated: "2022-02-14T10:02:01.279161067Z"
