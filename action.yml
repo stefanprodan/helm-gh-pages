@@ -49,6 +49,9 @@ inputs:
   index_dir:
     description: "The location of `index.yaml` file in the repo, defaults to the same value as `target_dir`"
     required: false
+  enterprise_url:
+    description: "The URL of enterprise github server in the format '<server-url>/<organisation>'"
+    required: false    
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -67,3 +70,4 @@ runs:
     - ${{ inputs.app_version }}
     - ${{ inputs.chart_version }}
     - ${{ inputs.index_dir }}
+    - ${{ inputs.enterprise_url }}
