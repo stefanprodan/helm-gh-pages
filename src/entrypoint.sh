@@ -31,6 +31,7 @@ COMMIT_EMAIL=${11}
 APP_VERSION=${12}
 CHART_VERSION=${13}
 INDEX_DIR=${14}
+ENTERPRISE_URL=${15}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -71,7 +72,11 @@ main() {
   fi
 
   if [[ -z "$REPO_URL" ]]; then
-      REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
+      if [[ -z "$ENTERPRISE_URL" ]]; then
+          REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
+      else 
+          REPO_URL="https://x-access-token:${GITHUB_TOKEN}@${ENTERPRISE_URL}/${REPOSITORY}"
+      fi 
   fi
 
   if [[ -z "$COMMIT_USERNAME" ]]; then

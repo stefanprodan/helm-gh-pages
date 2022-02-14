@@ -19,6 +19,7 @@ Inputs:
 * `app_version` Explicitly specify app version in package. If not defined then used chart values.
 * `chart_version` Explicitly specify chart version in package. If not defined then used chart values.
 * `index_dir` The location of `index.yaml` file in the repo, defaults to the same value as `target_dir`
+* `enterprise_url` The URL of enterprise github server in the format `<server-url>/<organisation>`
 
 ## Examples
 
