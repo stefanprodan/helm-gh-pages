@@ -16,6 +16,7 @@
 
 set -o errexit
 set -o pipefail
+set -x
 
 GITHUB_TOKEN=$1
 CHARTS_DIR=$2
@@ -150,6 +151,7 @@ upload() {
   tmpDir=$(mktemp -d)
   pushd $tmpDir >& /dev/null
 
+  echo "REPO_URL=$REPO_URL"
   git clone ${REPO_URL}
   cd ${REPOSITORY}
   git config user.name "${COMMIT_USERNAME}"
