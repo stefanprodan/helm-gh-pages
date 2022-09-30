@@ -94,6 +94,7 @@ main() {
 
   locate
   download
+  get_repo
   dependencies
   if [[ "$LINTING" != "off" ]]; then
     lint
@@ -123,6 +124,10 @@ download() {
 
   popd >& /dev/null
   rm -rf $tmpDir
+}
+
+get_repo() {
+  helm repo add matrixx https://raw.githubusercontent.com/weaveworks-20276/customer-info/gh-pages --username paul-calton --password ${GITHUB_TOKEN}
 }
 
 dependencies() {
