@@ -162,7 +162,7 @@ upload() {
   git config user.name "${COMMIT_USERNAME}"
   git config user.email "${COMMIT_EMAIL}"
   git remote set-url origin ${REPO_URL}
-  git checkout ${BRANCH}
+  git checkout origin/${BRANCH} -b ${BRANCH}
 
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
