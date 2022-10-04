@@ -95,7 +95,7 @@ main() {
 
   locate
   download
-  get_repo
+  get_dependencies
   dependencies
   if [[ "$LINTING" != "off" ]]; then
     lint
