@@ -33,6 +33,7 @@ APP_VERSION=${12}
 CHART_VERSION=${13}
 INDEX_DIR=${14}
 ENTERPRISE_URL=${15}
+DEPENDENCIES=${$16}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -126,8 +127,13 @@ download() {
   rm -rf $tmpDir
 }
 
-get_repo() {
-  helm repo add matrixx https://raw.githubusercontent.com/weaveworks-20276/customer-info/gh-pages --username paul-calton --password ${GITHUB_TOKEN}
+get_dependencies() {
+  IFS=';' read -ra depenency <<< "$DEPENDENCIES"
+  for repos in ${dependency[@]}; do
+    name=$(cut -f 1 -d, <<< "$repos")
+    url=$(cut -f 2 -d, <<< "$repos")
+    helm repo add ${name} ${url}
+  done
 }
 
 dependencies() {
@@ -183,7 +189,7 @@ upload() {
   git add ${INDEX_DIR}/index.yaml
 
   git commit -m "Publish $charts"
-  git push origin ${BRANCH}
+  git push ${BRANCH}
 
   popd >& /dev/null
   rm -rf $tmpDir
