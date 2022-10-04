@@ -128,7 +128,7 @@ download() {
 }
 
 get_dependencies() {
-  IFS=';' read -ra depenency <<< "$DEPENDENCIES"
+  IFS=';' read -ra dependency <<< "$DEPENDENCIES"
   for repos in ${dependency[@]}; do
     name=$(cut -f 1 -d, <<< "$repos")
     url=$(cut -f 2 -d, <<< "$repos")
