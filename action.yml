@@ -51,7 +51,10 @@ inputs:
     required: false
   enterprise_url:
     description: "The URL of enterprise github server in the format '<server-url>/<organisation>'"
-    required: false    
+    required: false
+  dependencies:
+    description: "A list of helm repositories required to verify dependencies in the format '<name>,<url>;<name>,<url>'"
+    required: false     
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -71,3 +74,4 @@ runs:
     - ${{ inputs.chart_version }}
     - ${{ inputs.index_dir }}
     - ${{ inputs.enterprise_url }}
+    - ${{ inputs.dependencies }}

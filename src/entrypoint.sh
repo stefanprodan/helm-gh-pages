@@ -32,6 +32,7 @@ APP_VERSION=${12}
 CHART_VERSION=${13}
 INDEX_DIR=${14}
 ENTERPRISE_URL=${15}
+DEPENDENCIES=${16}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -93,6 +94,7 @@ main() {
 
   locate
   download
+  get_dependencies
   dependencies
   if [[ "$LINTING" != "off" ]]; then
     lint
@@ -122,6 +124,15 @@ download() {
 
   popd >& /dev/null
   rm -rf $tmpDir
+}
+
+get_dependencies() {
+  IFS=';' read -ra dependency <<< "$DEPENDENCIES"
+  for repos in ${dependency[@]}; do
+    name=$(cut -f 1 -d, <<< "$repos")
+    url=$(cut -f 2 -d, <<< "$repos")
+    helm repo add ${name} ${url}
+  done
 }
 
 dependencies() {
