@@ -75,9 +75,9 @@ main() {
   if [[ -z "$REPO_URL" ]]; then
       if [[ -z "$ENTERPRISE_URL" ]]; then
           REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/${REPOSITORY}"
-      else 
+      else
           REPO_URL="https://x-access-token:${GITHUB_TOKEN}@${ENTERPRISE_URL}/${REPOSITORY}"
-      fi 
+      fi
   fi
 
   if [[ -z "$COMMIT_USERNAME" ]]; then
@@ -129,9 +129,18 @@ download() {
 get_dependencies() {
   IFS=';' read -ra dependency <<< "$DEPENDENCIES"
   for repos in ${dependency[@]}; do
-    name=$(cut -f 1 -d, <<< "$repos")
-    url=$(cut -f 2 -d, <<< "$repos")
-    helm repo add ${name} ${url}
+    result=$( echo $repos|awk -F',' '{print NF}' )
+    if [[ $result -gt 2 ]]; then
+      name=$(cut -f 1 -d, <<< "$repos")
+      username=$(cut -f 2 -d, <<< "$repos")
+      password=$(cut -f 3 -d, <<< "$repos")
+      url=$(cut -f 4 -d, <<< "$repos")
+      helm repo add ${name} --username ${username} --password ${password} ${url}
+    else
+      name=$(cut -f 1 -d, <<< "$repos")
+      url=$(cut -f 2 -d, <<< "$repos")
+      helm repo add ${name} ${url}
+    fi
   done
 }
 
