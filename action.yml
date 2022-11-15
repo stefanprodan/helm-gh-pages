@@ -35,7 +35,7 @@ inputs:
   commit_username:
     description: "The user name used for the commit user"
     required: false
-    default: ${{ github.actor }} 
+    default: ${{ github.actor }}
   commit_email:
     description: "The email used for the commit user"
     required: false
@@ -54,7 +54,7 @@ inputs:
     required: false
   dependencies:
     description: "A list of helm repositories required to verify dependencies in the format '<name>,<url>;<name>,<url>'"
-    required: false     
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
