@@ -33,6 +33,7 @@ CHART_VERSION=${13}
 INDEX_DIR=${14}
 ENTERPRISE_URL=${15}
 DEPENDENCIES=${16}
+CHART_DIR=${17}
 
 CHARTS=()
 CHARTS_TMP_DIR=$(mktemp -d)
@@ -40,6 +41,11 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 REPO_URL=""
 
 main() {
+  if [[ -n "$CHARTS_DIR" ]] && [[ -n "$CHART_DIR" ]]; then
+      echo '"Both charts_dir" and "chart_dir" cannot be set' >&2
+      exit 1
+  fi
+
   if [[ -z "$HELM_VERSION" ]]; then
       HELM_VERSION="3.10.0"
   fi
@@ -104,6 +110,12 @@ main() {
 }
 
 locate() {
+  if [[ -n "$CHART_DIR" ]]; then
+    echo "Use the specified chart directory ${CHART_DIR}"
+    CHARTS+=( "$CHART_DIR" )
+    return
+  fi
+
   for dir in $(find "${CHARTS_DIR}" -type d -mindepth 1 -maxdepth 1); do
     if [[ -f "${dir}/Chart.yaml" ]]; then
       CHARTS+=("${dir}")
