@@ -104,7 +104,6 @@ main() {
 }
 
 locate() {
-
   if [[ "${CHARTS_DIR}" == "." ]]; then
     echo "Chart directory set to repository root. Treating everything as part of the chart."
     CHARTS+=(".")
@@ -116,7 +115,8 @@ locate() {
       else
         echo "Ignoring non-chart directory ${dir}"
       fi
-   done
+    done
+  fi
 }
 
 download() {
