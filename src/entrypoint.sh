@@ -104,14 +104,19 @@ main() {
 }
 
 locate() {
-  for dir in $(find "${CHARTS_DIR}" -type d -mindepth 1 -maxdepth 1); do
-    if [[ -f "${dir}/Chart.yaml" ]]; then
-      CHARTS+=("${dir}")
-      echo "Found chart directory ${dir}"
-    else
-      echo "Ignoring non-chart directory ${dir}"
-    fi
-  done
+
+  if [[ "${CHARTS_DIR}" == "." ]]; then
+    echo "Chart directory set to repository root. Treating everything as part of the chart."
+    CHARTS+=(".")
+  else
+    for dir in $(find "${CHARTS_DIR}" -type d -mindepth 1 -maxdepth 1); do
+      if [[ -f "${dir}/Chart.yaml" ]]; then
+        CHARTS+=("${dir}")
+        echo "Found chart directory ${dir}"
+      else
+        echo "Ignoring non-chart directory ${dir}"
+      fi
+   done
 }
 
 download() {
