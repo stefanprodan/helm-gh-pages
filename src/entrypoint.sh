@@ -179,6 +179,7 @@ upload() {
 
   charts=$(cd ${CHARTS_TMP_DIR} && ls *.tgz | xargs)
 
+  mkdir -p ${INDEX_DIR}
   mkdir -p ${TARGET_DIR}
 
   if [[ -f "${INDEX_DIR}/index.yaml" ]]; then
@@ -188,8 +189,9 @@ upload() {
     mv -f ${CHARTS_TMP_DIR}/index.yaml ${INDEX_DIR}/index.yaml
   else
     echo "No index found, generating a new one"
+    helm repo index ${CHARTS_TMP_DIR} --url ${CHARTS_URL}
     mv -f ${CHARTS_TMP_DIR}/*.tgz ${TARGET_DIR}
-    helm repo index ${INDEX_DIR} --url ${CHARTS_URL}
+    mv -f ${CHARTS_TMP_DIR}/index.yaml ${INDEX_DIR}
   fi
 
   git add ${TARGET_DIR}
