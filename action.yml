@@ -9,7 +9,7 @@ inputs:
     description: "GitHub token"
     required: true
   charts_dir:
-    description: "The charts directory, defaults to `charts`"
+    description: "The charts directory, defaults to `charts` (cannot be used if `chart_dir` is set)"
     required: false
   charts_url:
     description: "The GitHub Pages URL, defaults to `https://<OWNER>.github.io/<REPOSITORY>`"
@@ -55,6 +55,9 @@ inputs:
   dependencies:
     description: "A list of helm repositories required to verify dependencies in the format '<name>,<url>;<name>,<url>'"
     required: false
+  chart_dir:
+    description: "The specified chart directory, e.g. charts/wordpress (cannot be used if `charts_dir` is set)"
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -75,3 +78,4 @@ runs:
     - ${{ inputs.index_dir }}
     - ${{ inputs.enterprise_url }}
     - ${{ inputs.dependencies }}
+    - ${{ inputs.chart_dir }}
